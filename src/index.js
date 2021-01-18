@@ -12,16 +12,29 @@ import { buttonChange, buttonClick } from './button';
 'use strict';
 
 /* global THREE */
-//buttonChange.addEventListener('mousedown', onMouseDown);
+const scene = new THREE.Scene();
+let rotateflag = 0;
+
+buttonChange.addEventListener('mousedown', onMouseDown);
 
 function onMouseDown() {
-  buttonClick();
-  main();
+  //buttonClick();
+  
+  mtlLoader.load(tytul2, (materials) => {
+    //materials.depthWrite = false;
+    //materials.side = THREE.BackSide;
+    //materials.side = THREE.FrontSide;
+    materials.preload()
+    objLoader.setMaterials(materials);
+    objLoader.load(tytulobj2, (object) => {
 
-
+      scene.add(object);
+    });
+  });
+  //main();
 }
 
-let rotateflag = 0;
+
 
 function main() {
   const canvas = document.querySelector('#c');
@@ -36,7 +49,7 @@ function main() {
 
   controls.update(true);
 
-  const scene = new THREE.Scene();
+  
 
 
 
@@ -61,17 +74,7 @@ function main() {
     });
   });
   
-  mtlLoader.load(tytul2, (materials) => {
-    //materials.depthWrite = false;
-    //materials.side = THREE.BackSide;
-    //materials.side = THREE.FrontSide;
-    materials.preload()
-    objLoader.setMaterials(materials);
-    objLoader.load(tytulobj2, (object) => {
-
-      scene.add(object);
-    });
-  });
+ 
 
   loadManager.onLoad = () => {
     loadingElem.style.display = 'none';
